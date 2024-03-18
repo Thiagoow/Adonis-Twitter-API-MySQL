@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { StoreValidator } from '#validators/User/Register/store'
+import { UpdateValidator } from '#validators/User/Register/update'
 import User from '#models/user'
 import UserKey from '#models/user_key'
 import { faker } from '@faker-js/faker'
@@ -30,5 +31,17 @@ export default class RegisterController {
     return userKey.user
   }
 
-  async update({}: HttpContext) {}
+  async update({ request, response }: HttpContext) {
+    const { key, fullName, password } = await request.validateUsing(UpdateValidator)
+
+    const userKey = await UserKey.findByOrFail('key', key)
+    await userKey.load('user')
+
+    const username = fullName.split(' ')[0].toLocaleLowerCase() + new Date().getTime()
+    userKey.user.merge({ fullName, password, username })
+    await userKey.user.save()
+
+    await userKey.delete()
+    return response.ok({ message: 'Usuário atualizado :D' })
+  }
 }
