@@ -1,0 +1,18 @@
+import { BaseSchema } from '@adonisjs/lucid/schema'
+
+export default class extends BaseSchema {
+  protected tableName = 'files'
+
+  async up() {
+    this.schema.createTable(this.tableName, (table) => {
+      table.increments('id')
+      table.integer('owner_id').notNullable()
+      table.string('file_name').notNullable()
+      table.enum('file_category', ['avatar', 'post']).notNullable()
+    })
+  }
+
+  async down() {
+    this.schema.dropTable(this.tableName)
+  }
+}
