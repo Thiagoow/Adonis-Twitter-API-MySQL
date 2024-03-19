@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('username').unique()
       table.string('full_name')
       table.string('email').notNullable().unique()
-      table.string('password', 100)
+      table.string('password')
       table.string('remember_me_token').nullable()
       table.timestamps(true, true)
     })
