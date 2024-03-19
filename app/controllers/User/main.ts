@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { UpdateValidator } from '#validators/User/Register/update'
+import { UpdateValidator } from '#validators/User/Main/update'
 
 export default class MainController {
   async show({ auth }: HttpContext) {
