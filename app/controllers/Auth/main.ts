@@ -14,6 +14,6 @@ export default class AuthController {
 
   async destroy({ auth }: HttpContext) {
     const user = auth.user!
-    await User.accessTokens.delete(user, user.currentAccessToken.tokenableId)
+    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
   }
 }
