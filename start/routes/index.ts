@@ -12,6 +12,7 @@ import './auth.ts'
 import './users.ts'
 import './uploads.ts'
 import './posts.ts'
+import './comments.ts'
 
 router.get('/', async () => {
   return {

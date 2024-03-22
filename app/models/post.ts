@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 import File from '#models/file'
+import Comment from '#models/comment'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -22,6 +23,14 @@ export default class Post extends BaseModel {
     onQuery: (query) => query.where('fileCategory', 'post'),
   })
   declare media: HasMany<typeof File>
+
+  @hasMany(() => Comment)
+  declare comments: HasMany<typeof Comment>
+
+  @computed()
+  get commentsCount() {
+    return this.$extras.comments_count
+  }
 
   @column.dateTime({
     autoCreate: true,
