@@ -29,9 +29,7 @@ export default class PostsController {
         })
       })
 
-      query.withCount('likes', (likesQuery: any) => {
-        likesQuery.as('likesCount')
-      })
+      query.withCount('likes')
     })
 
     return user.posts
@@ -51,7 +49,23 @@ export default class PostsController {
         query.preload('avatar')
       })
       .preload('media')
+      .preload('comments', (commentsQuery) => {
+        commentsQuery.select(['userId', 'id', 'content', 'createdAt'])
+        commentsQuery.preload('user', (userQuery) => {
+          userQuery.select(['id', 'fullName', 'username'])
+          userQuery.preload('avatar')
+        })
+      })
+      .preload('likes', (likesQuery) => {
+        likesQuery.preload('user', (userQuery) => {
+          userQuery.select(['id', 'fullName', 'username'])
+          userQuery.preload('avatar')
+        })
+      })
+      .withCount('comments')
+      .withCount('likes')
       .firstOrFail()
+
     return post
   }
 

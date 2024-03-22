@@ -38,7 +38,7 @@ export default class Post extends BaseModel {
 
   @computed()
   get likesCount() {
-    return this.$extras.likesCount || 0
+    return this.$extras.likes_count || 0
   }
 
   @column.dateTime({

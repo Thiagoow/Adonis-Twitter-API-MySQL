@@ -8,6 +8,7 @@ import type { HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import UserKey from '#models/user_key'
 import File from '#models/file'
 import Post from '#models/post'
+import Like from '#models/like'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -62,4 +63,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Post)
   declare posts: HasMany<typeof Post>
+
+  @hasMany(() => Like)
+  declare likes: HasMany<typeof Like>
 }
