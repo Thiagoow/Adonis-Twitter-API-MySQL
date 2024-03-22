@@ -4,6 +4,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 import File from '#models/file'
 import Comment from '#models/comment'
+import Like from '#models/like'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -31,6 +32,9 @@ export default class Post extends BaseModel {
   get commentsCount() {
     return this.$extras.comments_count
   }
+
+  @hasMany(() => Like)
+  declare likes: HasMany<typeof Like>
 
   @column.dateTime({
     autoCreate: true,

@@ -7,7 +7,6 @@ import Post from '#models/post'
 export default class CommentsController {
   async store({ request, auth }: HttpContext) {
     const { content, postId } = await request.validateUsing(StoreValidator)
-    console.log('postId', postId)
     const post = await Post.findOrFail(postId)
 
     const comment = await post.related('comments').create({ content, userId: auth.user!.id })
