@@ -13,6 +13,7 @@ import './users.ts'
 import './uploads.ts'
 import './posts.ts'
 import './comments.ts'
+import './likes.ts'
 
 router.get('/', async () => {
   return {

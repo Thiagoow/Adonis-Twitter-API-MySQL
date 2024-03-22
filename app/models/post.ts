@@ -36,6 +36,11 @@ export default class Post extends BaseModel {
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
 
+  @computed()
+  get likesCount() {
+    return this.$extras.likesCount || 0
+  }
+
   @column.dateTime({
     autoCreate: true,
     serialize: (value: DateTime) => {

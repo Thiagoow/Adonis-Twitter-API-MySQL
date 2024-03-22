@@ -28,6 +28,10 @@ export default class PostsController {
           userQuery.preload('avatar')
         })
       })
+
+      query.withCount('likes', (likesQuery: any) => {
+        likesQuery.as('likesCount')
+      })
     })
 
     return user.posts
