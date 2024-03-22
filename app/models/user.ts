@@ -7,6 +7,7 @@ import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import UserKey from '#models/user_key'
 import File from '#models/file'
+import Post from '#models/post'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -58,4 +59,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
     onQuery: (query) => query.where('fileCategory', 'avatar'),
   })
   declare avatar: HasOne<typeof File>
+
+  @hasMany(() => Post)
+  declare posts: HasMany<typeof Post>
 }

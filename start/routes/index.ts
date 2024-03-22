@@ -11,6 +11,7 @@ import router from '@adonisjs/core/services/router'
 import './auth.ts'
 import './users.ts'
 import './uploads.ts'
+import './posts.ts'
 
 router.get('/', async () => {
   return {
