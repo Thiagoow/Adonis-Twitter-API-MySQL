@@ -2,9 +2,9 @@ import { DateTime } from 'luxon'
 import { withAuthFinder } from '@adonisjs/auth'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, hasOne, manyToMany } from '@adonisjs/lucid/orm'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import type { HasMany, HasOne } from '@adonisjs/lucid/types/relations'
+import type { HasMany, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
 import UserKey from '#models/user_key'
 import File from '#models/file'
 import Post from '#models/post'
@@ -66,4 +66,18 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
+
+  @manyToMany(() => User, {
+    pivotTable: 'follows',
+    pivotForeignKey: 'following_id',
+    pivotRelatedForeignKey: 'follower_id',
+  })
+  declare followers: ManyToMany<typeof User>
+
+  @manyToMany(() => User, {
+    pivotTable: 'follows',
+    pivotForeignKey: 'follower_id',
+    pivotRelatedForeignKey: 'following_id',
+  })
+  declare following: ManyToMany<typeof User>
 }
