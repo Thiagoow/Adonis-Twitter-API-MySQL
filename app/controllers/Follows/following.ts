@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { isFollowing } from '../../utils/is_following.js'
+import { isFollowing } from '#utils/is_following'
 import User from '#models/user'
 
 export default class FollowingController {
