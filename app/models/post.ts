@@ -28,18 +28,8 @@ export default class Post extends BaseModel {
   @hasMany(() => Comment)
   declare comments: HasMany<typeof Comment>
 
-  @computed()
-  get commentsCount() {
-    return this.$extras.comments_count
-  }
-
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
-
-  @computed()
-  get likesCount() {
-    return this.$extras.likes_count || 0
-  }
 
   @column.dateTime({
     autoCreate: true,
@@ -57,4 +47,14 @@ export default class Post extends BaseModel {
     },
   })
   declare updatedAt: DateTime
+
+  @computed()
+  get commentsCount() {
+    return this.$extras.comments_count
+  }
+
+  @computed()
+  get likesCount() {
+    return this.$extras.likes_count
+  }
 }

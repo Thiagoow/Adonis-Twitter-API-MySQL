@@ -85,10 +85,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
   get postsCount() {
     return this.$extras.posts_count
   }
+
   @computed()
   get followersCount() {
     return this.$extras.followers_count
   }
+
   @computed()
   get followingCount() {
     return this.$extras.following_count
