@@ -9,6 +9,7 @@ import UserKey from '#models/user_key'
 import File from '#models/file'
 import Post from '#models/post'
 import Like from '#models/like'
+import Retweet from '#models/retweet'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -66,6 +67,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
+
+  @hasMany(() => Like)
+  declare retweets: HasMany<typeof Retweet>
 
   @manyToMany(() => User, {
     pivotTable: 'follows',
