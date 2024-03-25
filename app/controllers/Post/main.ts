@@ -19,16 +19,7 @@ export default class PostsController {
         userQuery.select(['id', 'fullName', 'username'])
         userQuery.preload('avatar')
       })
-
       query.withCount('comments')
-      query.preload('comments', (commentsQuery: any) => {
-        commentsQuery.select(['userId', 'id', 'content', 'createdAt'])
-        commentsQuery.preload('user', (userQuery: any) => {
-          userQuery.select(['id', 'fullName', 'username'])
-          userQuery.preload('avatar')
-        })
-      })
-
       query.withCount('likes')
     })
 
@@ -50,7 +41,7 @@ export default class PostsController {
       })
       .preload('media')
       .preload('comments', (commentsQuery) => {
-        commentsQuery.select(['userId', 'id', 'content', 'createdAt'])
+        commentsQuery.select(['userId', 'id', 'content', 'createdAt', 'updatedAt'])
         commentsQuery.preload('user', (userQuery) => {
           userQuery.select(['id', 'fullName', 'username'])
           userQuery.preload('avatar')
