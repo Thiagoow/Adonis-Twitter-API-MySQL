@@ -16,6 +16,7 @@ import './comments.ts'
 import './likes.ts'
 import './follows.ts'
 import './profiles.ts'
+import './retweets.ts'
 
 router.get('/', async () => {
   return {

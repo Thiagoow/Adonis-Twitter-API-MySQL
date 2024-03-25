@@ -9,9 +9,8 @@ export default class LikesController {
     const post = await Post.findOrFail(postId)
 
     const searchPayload = { postId, userId: auth.user!.id }
-    const reaction = await post.related('likes').updateOrCreate(searchPayload, {})
-
-    return reaction
+    const like = await post.related('likes').updateOrCreate(searchPayload, {})
+    return like
   }
 
   async destroy({ params }: HttpContext) {

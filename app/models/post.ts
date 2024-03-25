@@ -5,6 +5,7 @@ import User from '#models/user'
 import File from '#models/file'
 import Comment from '#models/comment'
 import Like from '#models/like'
+import Retweet from '#models/retweet'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -31,6 +32,9 @@ export default class Post extends BaseModel {
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
 
+  @hasMany(() => Retweet)
+  declare retweets: HasMany<typeof Retweet>
+
   @column.dateTime({
     autoCreate: true,
     serialize: (value: DateTime) => {
@@ -56,5 +60,10 @@ export default class Post extends BaseModel {
   @computed()
   get likesCount() {
     return this.$extras.likes_count
+  }
+
+  @computed()
+  get retweetsCount() {
+    return this.$extras.retweets_count
   }
 }
