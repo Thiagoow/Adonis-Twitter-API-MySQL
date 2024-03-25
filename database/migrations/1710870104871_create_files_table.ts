@@ -1,4 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import { fileCategories } from '#utils/file_categories'
 
 export default class extends BaseSchema {
   protected tableName = 'files'
@@ -8,7 +9,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('owner_id').notNullable()
       table.string('file_name').notNullable()
-      table.enum('file_category', ['avatar', 'post']).notNullable()
+      table.enum('file_category', fileCategories).notNullable()
     })
   }
 

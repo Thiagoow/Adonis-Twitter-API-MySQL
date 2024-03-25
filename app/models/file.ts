@@ -1,5 +1,6 @@
 import env from '#start/env'
 import { BaseModel, column, computed } from '@adonisjs/lucid/orm'
+import type { FileCategory } from '#utils/file_categories'
 
 export default class File extends BaseModel {
   @column({ isPrimary: true, serializeAs: null })
@@ -12,7 +13,7 @@ export default class File extends BaseModel {
   declare fileName: string
 
   @column({ serializeAs: null })
-  declare fileCategory: 'avatar' | 'post'
+  declare fileCategory: FileCategory
 
   @computed()
   get url(): string {
