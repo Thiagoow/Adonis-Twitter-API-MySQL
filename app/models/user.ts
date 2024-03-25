@@ -68,7 +68,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
 
-  @hasMany(() => Like)
+  @hasMany(() => Retweet)
   declare retweets: HasMany<typeof Retweet>
 
   @manyToMany(() => User, {
@@ -98,5 +98,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @computed()
   get followingCount() {
     return this.$extras.following_count
+  }
+
+  @computed()
+  get retweetsCount() {
+    return this.$extras.retweets_count
   }
 }

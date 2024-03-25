@@ -7,9 +7,9 @@ export default class RetweetsController {
   async store({ request, auth }: HttpContext) {
     const { postId } = await request.validateUsing(StoreValidator)
     const post = await Post.findOrFail(postId)
-    console.log(post)
 
-    const retweet = await post.related('retweets').create({ postId, userId: auth.user!.id })
+    const searchPayload = { postId, userId: auth.user!.id }
+    const retweet = await post.related('retweets').updateOrCreate(searchPayload, {})
     return retweet
   }
 

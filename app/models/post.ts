@@ -32,7 +32,7 @@ export default class Post extends BaseModel {
   @hasMany(() => Like)
   declare likes: HasMany<typeof Like>
 
-  @hasMany(() => Like)
+  @hasMany(() => Retweet)
   declare retweets: HasMany<typeof Retweet>
 
   @column.dateTime({
@@ -60,5 +60,10 @@ export default class Post extends BaseModel {
   @computed()
   get likesCount() {
     return this.$extras.likes_count
+  }
+
+  @computed()
+  get retweetsCount() {
+    return this.$extras.retweets_count
   }
 }
