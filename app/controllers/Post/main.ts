@@ -8,11 +8,12 @@ import fs from 'node:fs'
 
 export default class PostsController {
   async index({ request, auth }: HttpContext) {
-    const { username } = request.qs()
+    const { username, page } = request.qs()
     const user = username ? (await User.findBy('username', username))! : auth.user!
 
     await user.load('posts', (query) => {
       query.orderBy('id', 'desc')
+      query.forPage()
       query.preload('media')
       query.preload('user', (userQuery: any) => {
         userQuery.select(['id', 'fullName', 'username'])
@@ -20,6 +21,7 @@ export default class PostsController {
       })
       query.withCount('comments')
       query.withCount('likes')
+      query.forPage(page | 1, 10)
     })
 
     return user.posts
