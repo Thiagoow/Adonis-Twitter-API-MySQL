@@ -14,8 +14,8 @@ export default class RetweetsController {
   }
 
   async destroy({ response, auth, params }: HttpContext) {
-    const retweet = await Retweet.findOrFail(params.id)
-    if (auth.user!.id !== retweet.userId) {
+    const retweet = await Retweet.query().where('post_id', params.id).firstOrFail()
+    if (auth.user!.id !== retweet?.userId) {
       return response.unauthorized()
     }
     await retweet.delete()

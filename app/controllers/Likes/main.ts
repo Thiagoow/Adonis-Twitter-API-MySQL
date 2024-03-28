@@ -14,7 +14,7 @@ export default class LikesController {
   }
 
   async destroy({ params }: HttpContext) {
-    const like = await Like.findOrFail(params.id)
+    const like = await Like.query().where('post_id', params.id).firstOrFail()
     await like.delete()
   }
 }
