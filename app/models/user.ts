@@ -104,4 +104,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   get retweetsCount() {
     return this.$extras.retweets_count
   }
+
+  @computed()
+  get isFollowing() {
+    return this.$extras.isFollowing
+  }
 }
