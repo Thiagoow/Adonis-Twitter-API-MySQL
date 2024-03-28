@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { StoreValidator } from '#validators/Retweet/store'
+import { UpdateValidator } from '#validators/Retweet/store'
 import Post from '#models/post'
 import Retweet from '#models/retweet'
 
 export default class RetweetsController {
-  async store({ request, auth }: HttpContext) {
-    const { postId } = await request.validateUsing(StoreValidator)
+  async update({ request, auth }: HttpContext) {
+    const { postId } = await request.validateUsing(UpdateValidator)
     const post = await Post.findOrFail(postId)
 
     const searchPayload = { postId, userId: auth.user!.id }
