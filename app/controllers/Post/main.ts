@@ -9,7 +9,7 @@ import fs from 'node:fs'
 export default class PostsController {
   async index({ request, response }: HttpContext) {
     const { username, page = 1, size = 10, sort = 'desc' } = request.qs()
-    const user = username ? await User.findBy('username', username) : undefined
+    const user = username ? await User.findBy('username', username) : null
     const pageParam = Number(page)
     const sizeParam = Number(size)
 
