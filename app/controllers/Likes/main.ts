@@ -13,8 +13,11 @@ export default class LikesController {
     return like
   }
 
-  async destroy({ params }: HttpContext) {
+  async destroy({ params, auth, response }: HttpContext) {
     const like = await Like.query().where('post_id', params.id).firstOrFail()
+    if (auth.user!.id !== like?.userId) {
+      return response.unauthorized()
+    }
     await like.delete()
   }
 }
