@@ -7,7 +7,7 @@ export default class ProfilesController {
     const { username } = request.qs()
 
     const user = await User.query()
-      .where({ username })
+      .where(username ? { username } : { username: auth.user!.username })
       .preload('avatar')
       .preload('posts', (postsQuery: any) => {
         postsQuery.preload('media')
