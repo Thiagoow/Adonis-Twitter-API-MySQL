@@ -7,21 +7,43 @@ import app from '@adonisjs/core/services/app'
 import fs from 'node:fs'
 
 export default class PostsController {
-  async index({ request, auth }: HttpContext) {
-    const { username, page, size } = request.qs()
-    const user = username ? (await User.findBy('username', username))! : auth.user!
+  async index({ request, response }: HttpContext) {
+    const { username, page = 1, size = 10, sort = 'desc' } = request.qs()
+    const user = username ? await User.findBy('username', username) : undefined
+    const pageParam = Number(page)
+    const sizeParam = Number(size)
 
-    const pageParam = Number(page) || 1
-    const sizeParam = Number(size) || 10
+    if (sizeParam > 100) {
+      return response.badRequest({ error: { message: 'Digite um tamanho válido de 1 a 100' } })
+    }
+    if (sort && !['asc', 'desc'].includes(sort)) {
+      return response.badRequest({
+        error: { message: "Digite um parâmetro de ordenação válido: 'asc' ou 'desc'" },
+      })
+    }
+
+    if (!user) {
+      const posts = await Post.query()
+        .orderBy('id', sort)
+        .preload('media')
+        .preload('user', (userQuery: any) => {
+          userQuery.select(['id', 'fullName', 'username'])
+          userQuery.preload('avatar')
+        })
+        .withCount('comments')
+        .withCount('likes')
+        .forPage(pageParam, sizeParam)
+
+      return posts
+    }
 
     await user.load('posts', (query) => {
-      query.orderBy('id', 'desc')
+      query.orderBy('id', sort)
       query.preload('media')
       query.preload('user', (userQuery: any) => {
         userQuery.select(['id', 'fullName', 'username'])
         userQuery.preload('avatar')
       })
-      query.withCount('retweets')
       query.withCount('comments')
       query.withCount('likes')
       query.forPage(pageParam, sizeParam)
