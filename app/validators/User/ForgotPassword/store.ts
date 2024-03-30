@@ -9,6 +9,5 @@ export const StoreValidator = vine.compile(
       .exists(async (db, value) => {
         return !!(await db.from('users').where('email', value))
       }),
-    redirectUrl: vine.string().trim(),
   })
 )

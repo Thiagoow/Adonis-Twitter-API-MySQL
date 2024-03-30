@@ -24,5 +24,5 @@ router.get('/', async () => {
   }
 })
 
-router.on('/register').render('emails/register', { link: 'http://localhost:3333' })
-router.on('/forgot-password').render('emails/forgot-password', { link: 'http://localhost:3333' })
+router.on('/register').render('emails/register', { key: '123456' })
+router.on('/forgot-password').render('emails/forgot-password', { key: '123456' })

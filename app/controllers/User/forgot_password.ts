@@ -8,18 +8,17 @@ import mail from '@adonisjs/mail/services/main'
 
 export default class ForgotPasswordController {
   async store({ request }: HttpContext) {
-    const { email, redirectUrl } = await request.validateUsing(StoreValidator)
+    const { email } = await request.validateUsing(StoreValidator)
     const user = await User.findByOrFail('email', email)
 
-    const key = faker.string.uuid() + user.id
+    const key = faker.string.numeric(5) + user.id
     user.related('keys').create({ key })
-    const link = `${redirectUrl.replace(/\/$/, '')}/${key}`
 
     await mail.send((message) => {
       message.to(email)
       message.from('contato@twitter.com', 'Thiago - Twitter Admin')
       message.subject('Recuperação de senha')
-      message.htmlView('emails/forgot-password', { link })
+      message.htmlView('emails/forgot-password', { key })
     })
   }
 
