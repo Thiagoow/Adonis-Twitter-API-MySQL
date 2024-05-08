@@ -8,15 +8,15 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import './auth.ts'
-import './users.ts'
-import './uploads.ts'
-import './posts.ts'
-import './comments.ts'
-import './likes.ts'
-import './follows.ts'
-import './profiles.ts'
-import './retweets.ts'
+import './auth.js'
+import './users.js'
+import './uploads.js'
+import './posts.js'
+import './comments.js'
+import './likes.js'
+import './follows.js'
+import './profiles.js'
+import './retweets.js'
 
 router.get('/', async () => {
   return {
