@@ -1,25 +1,30 @@
+import { faker } from '@faker-js/faker'
+import db from '@adonisjs/lucid/services/db'
+import mail from '@adonisjs/mail/services/main'
 import type { HttpContext } from '@adonisjs/core/http'
-import { StoreValidator } from '#validators/User/Register/store'
-import { UpdateValidator } from '#validators/User/Register/update'
 import User from '#models/user'
 import UserKey from '#models/user_key'
-import { faker } from '@faker-js/faker'
-import mail from '@adonisjs/mail/services/main'
+import { StoreValidator } from '#validators/User/Register/store'
+import { UpdateValidator } from '#validators/User/Register/update'
 
 export default class RegisterController {
   async store({ request }: HttpContext) {
-    const { email } = await request.validateUsing(StoreValidator)
-    const user = await User.create({ email })
+    await db.transaction(async (trx) => {
+      const { email } = await request.validateUsing(StoreValidator)
+      const user = new User()
+      user.useTransaction(trx)
 
-    await user.save()
-    const key = faker.string.numeric(5) + user.id
-    user.related('keys').create({ key })
+      await user.save()
+      user.merge({ email })
+      const key = faker.string.numeric(5) + user.id
+      user.related('keys').create({ key })
 
-    await mail.send((message) => {
-      message.to(email)
-      message.from('contato@twitter.com', 'Thiago - Twitter Admin')
-      message.subject('Criação de conta')
-      message.htmlView('emails/register', { key })
+      await mail.send((message) => {
+        message.to(email)
+        message.from('contato@twitter.com', 'Thiago - Twitter Admin')
+        message.subject('Criação de conta')
+        message.htmlView('emails/register', { key })
+      })
     })
   }
 
