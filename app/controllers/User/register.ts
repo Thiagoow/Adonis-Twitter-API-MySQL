@@ -14,8 +14,8 @@ export default class RegisterController {
       const user = new User()
       user.useTransaction(trx)
 
-      await user.save()
       user.merge({ email })
+      await user.save()
       const key = faker.string.numeric(5) + user.id
       user.related('keys').create({ key })
 
