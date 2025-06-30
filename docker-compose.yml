@@ -1,11 +1,8 @@
-version: '3.9'
-
 services:
   database:
     image: mysql
     platform: linux/x86_64
     container_name: twitter_api
-    command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 'secret'
